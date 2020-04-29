@@ -83,7 +83,6 @@ class MLPPolicy(BasePolicy):
             observation = obs
         else:
             observation = obs[None]
-
         # TODO return the action that the policy prescribes
         # HINT1: you will need to call self.sess.run
         # HINT2: the tensor we're interested in evaluating is self.sample_ac

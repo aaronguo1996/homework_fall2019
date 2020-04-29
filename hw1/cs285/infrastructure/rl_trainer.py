@@ -72,7 +72,7 @@ class RL_Trainer(object):
 
         ## TODO initialize all of the TF variables (that were created by agent, etc.)
         ## HINT: use global_variables_initializer
-        tf.global_variables_initializer()
+        self.sess.run(tf.global_variables_initializer())
 
     def run_training_loop(self, n_iter, collect_policy, eval_policy,
                         initial_expertdata=None, relabel_with_expert=False,
@@ -158,8 +158,9 @@ class RL_Trainer(object):
 
                 # collect data, batch_size is the number of transitions you want to collect.
         if itr == 0:
-            loaded_paths = pickle.load(load_initial_expertdata)
-            return loaded_paths, 0, None
+            with open(load_initial_expertdata, 'rb') as data:
+                loaded_paths = pickle.load(data)
+                return loaded_paths, 0, None
 
         # TODO collect data to be used for training
         # HINT1: use sample_trajectories from utils
@@ -182,7 +183,6 @@ class RL_Trainer(object):
     def train_agent(self):
         print('\nTraining agent using sampled data from replay buffer...')
         for train_step in range(self.params['num_agent_train_steps_per_iter']):
-
             # TODO sample some data from the data buffer
             # HINT1: use the agent's sample function
             # HINT2: how much data = self.params['train_batch_size']
