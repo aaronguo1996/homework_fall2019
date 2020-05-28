@@ -28,7 +28,7 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
 
         # use the most recent ob to decide what to do
         obs.append(ob)
-        ac = policy.get_action(np.array(obs)) # HINT: query the policy's get_action function
+        ac = policy.get_action(ob) # HINT: query the policy's get_action function
         ac = ac[0]
         acs.append(ac)
 
@@ -42,7 +42,7 @@ def sample_trajectory(env, policy, max_path_length, render=False, render_mode=('
 
         # TODO end the rollout if the rollout ended 
         # HINT: rollout can end due to done, or due to max_path_length
-        rollout_done = 1 if done or steps == max_path_length else 0 # HINT: this is either 0 or 1
+        rollout_done = done or steps == max_path_length # HINT: this is either 0 or 1
         terminals.append(rollout_done)
         
         if rollout_done: 
@@ -62,10 +62,12 @@ def sample_trajectories(env, policy, min_timesteps_per_batch, max_path_length, r
     paths = []
     while timesteps_this_batch < min_timesteps_per_batch:
         p = sample_trajectory(env, policy, max_path_length, render, render_mode)
-        steps = p["observation"].shape[0]
+        # print(len(p['observation']))
+        # print(p['observation'].shape[0])
+        steps = len(p["observation"])
         paths.append(p)
         timesteps_this_batch += steps
-
+    print(len(paths))
     return paths, timesteps_this_batch
 
 def sample_n_trajectories(env, policy, ntraj, max_path_length, render=False, render_mode=('rgb_array')):

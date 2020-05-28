@@ -166,7 +166,7 @@ class RL_Trainer(object):
         # HINT1: use sample_trajectories from utils
         # HINT2: you want each of these collected rollouts to be of length self.params['ep_len']
         print("\nCollecting data to be used for training...")
-        sample_result = sample_trajectories(env, collect_policy, batch_size, self.params['ep_len'])
+        sample_result = sample_trajectories(self.env, collect_policy, batch_size, self.params['ep_len'])
         paths, envsteps_this_batch = sample_result
 
         # collect more rollouts with the same policy, to be saved as videos in tensorboard
